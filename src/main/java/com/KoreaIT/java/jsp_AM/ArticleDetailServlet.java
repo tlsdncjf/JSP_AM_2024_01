@@ -13,8 +13,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-@WebServlet("/article/list")
-public class ArticleListServlet extends HttpServlet {
+@WebServlet("/article/detail")
+public class ArticleDetailServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -39,12 +39,15 @@ public class ArticleListServlet extends HttpServlet {
 
 			DBUtil dbUtil = new DBUtil(request, response);
 
-			String sql = "SELECT * FROM article;";
+			int id = Integer.parseInt(request.getParameter("id"));
 
-			List<Map<String, Object>> articleRows = dbUtil.selectRows(conn, sql);
+//			String sql = "SELECT * FROM article WHERE id = " + id + ";";
+			String sql = String.format("SELECT * FROM article WHERE id = %d;", id);
 
-			request.setAttribute("articleRows", articleRows);
-			request.getRequestDispatcher("/jsp/home/article/list.jsp").forward(request, response);
+			Map<String, Object> articleRow = dbUtil.selectRow(conn, sql);
+
+			request.setAttribute("articleRow", articleRow);
+			request.getRequestDispatcher("/jsp/home/article/detail.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			System.out.println("에러 : " + e);

@@ -4,7 +4,7 @@
     <description></description>
     <display-name>HomeMainServlet</display-name>
     <servlet-name>HomeMainServlet</servlet-name>
-    <servlet-class>com.KoreaIT.java.jsp_AM.HomeMainServlet</servlet-class>
+    <servlet-class>com.KoreaIT.java.Jsp_AM.HomeMainServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>HomeMainServlet</servlet-name>
@@ -21,19 +21,9 @@
   </welcome-file-list>
   <servlet>
     <description></description>
-    <display-name>ArticleListServelet</display-name>
-    <servlet-name>ArticleListServelet</servlet-name>
-    <servlet-class>com.KoreaIT.java.jsp_AM.ArticleListServelet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>ArticleListServelet</servlet-name>
-    <url-pattern>/ArticleListServelet</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <description></description>
     <display-name>ArticleListServlet</display-name>
     <servlet-name>ArticleListServlet</servlet-name>
-    <servlet-class>com.KoreaIT.java.jsp_AM.ArticleListServlet</servlet-class>
+    <servlet-class>com.KoreaIT.java.Jsp_AM.ArticleListServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>ArticleListServlet</servlet-name>

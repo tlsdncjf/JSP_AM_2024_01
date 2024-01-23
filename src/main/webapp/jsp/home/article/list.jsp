@@ -15,6 +15,12 @@ int totalPage = (int) request.getAttribute("totalPage");
 <title>게시물 목록</title>
 </head>
 <body>
+<div>
+		<a href="../home/main">메인으로 이동</a>
+	</div>
+	<div>
+		<a href="write">글쓰기</a>
+	</div>
 
 	<a href="https://www.naver.com" target="_blank">네이버</a>
 	<a href="http://localhost:8081/JSP_AM_2024_01/article/list"
@@ -68,7 +74,7 @@ int totalPage = (int) request.getAttribute("totalPage");
 		<%
 		for (int i = 1; i <= totalPage; i++) {
 		%>
-		<a class="<%=cPage == i ? "cPage" : "" %>" href="list?page=<%=i%>"><%=i%></a>
+		<a class="<%=cPage == i ? "cPage" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 		<%
 		}
 		%>

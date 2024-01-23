@@ -15,12 +15,11 @@ int totalPage = (int) request.getAttribute("totalPage");
 <title>게시물 목록</title>
 </head>
 <body>
-<div>
+	<div>
 		<a href="../home/main">메인으로 이동</a>
 	</div>
 	<div>
-		<a href="write">글쓰기</a>
-		<a href="/modify">수정하기</a>
+		<a href="write">글쓰기</a> <a href="/modify">수정하기</a>
 	</div>
 
 	<a href="https://www.naver.com" target="_blank">네이버</a>
@@ -58,15 +57,17 @@ int totalPage = (int) request.getAttribute("totalPage");
 			%>
 		</tbody>
 	</table>
-	
+
 	<style type="text/css">
 .page {
 	font-size: 1.4rem;
 }
+
 .page>a {
 	color: black;
 	text-decoration: none;
 }
+
 .page>a.cPage {
 	color: red;
 	text-decoration: underline;
@@ -75,11 +76,21 @@ int totalPage = (int) request.getAttribute("totalPage");
 
 	<div class="page">
 		<%
-		for (int i = 1; i <= totalPage; i++) {
-		%>
-		<a class="<%=cPage == i ? "cPage" : ""%>" href="list?page=<%=i%>"><%=i%></a>
-		<%
-		}
+		if (cPage > 1) {
+			%>
+			<a href="list?page=1">◀◀</a>
+			<%
+			}
+			for (int i = 1; i <= totalPage; i++) {
+			%>
+			<a class="<%=cPage == i ? "cPage" : ""%>" href="list?page=<%=i%>"><%=i%></a>
+			<%
+			}
+			if (cPage < totalPage) {
+			%>
+			<a href="list?page=<%=totalPage%>">▶▶</a>
+			<%
+			}
 		%>
 	</div>
 

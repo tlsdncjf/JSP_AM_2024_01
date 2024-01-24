@@ -10,6 +10,7 @@ import java.util.Map;
 import com.KoreaIT.java.jsp_AM.util.DBUtil;
 import com.KoreaIT.java.jsp_AM.util.SecSql;
 import com.KoreaIT.java.jsp_AM.config.Config;
+import com.KoreaIT.java.jsp_AM.exception.SQLErrorException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -69,6 +70,8 @@ public class ArticleListServlet extends HttpServlet {
 
 		} catch (SQLException e) {
 			System.out.println("에러 : " + e);
+		} catch (SQLErrorException e) {
+			e.getOrigin().printStackTrace();
 		} finally {
 			try {
 				if (conn != null && !conn.isClosed()) {

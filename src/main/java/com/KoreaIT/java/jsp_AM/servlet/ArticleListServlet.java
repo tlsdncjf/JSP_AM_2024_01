@@ -9,6 +9,7 @@ import java.util.Map;
 
 import com.KoreaIT.java.jsp_AM.util.DBUtil;
 import com.KoreaIT.java.jsp_AM.util.SecSql;
+import com.KoreaIT.java.jsp_AM.config.Config;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,7 +25,7 @@ public class ArticleListServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		// DB연결
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(Config.getDbDriverClassName());
 		} catch (ClassNotFoundException e) {
 			System.out.println("클래스가 없습니다.");
 			e.printStackTrace();
@@ -37,7 +38,7 @@ public class ArticleListServlet extends HttpServlet {
 		Connection conn = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(Config.getDbUrl(), Config.getDbUser(), Config.getDbPw());
 			int page = 1;
 
 			if (request.getParameter("page") != null && request.getParameter("page").length() != 0) {

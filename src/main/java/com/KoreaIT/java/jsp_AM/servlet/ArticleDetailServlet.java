@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
+import com.KoreaIT.java.jsp_AM.config.Config;
 import com.KoreaIT.java.jsp_AM.util.DBUtil;
 import com.KoreaIT.java.jsp_AM.util.SecSql;
 
@@ -23,7 +24,7 @@ public class ArticleDetailServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		// DB연결
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
+			Class.forName(Config.getDbDriverClassName());
 		} catch (ClassNotFoundException e) {
 			System.out.println("클래스가 없습니다.");
 			e.printStackTrace();
@@ -36,7 +37,7 @@ public class ArticleDetailServlet extends HttpServlet {
 		Connection conn = null;
 
 		try {
-			conn = DriverManager.getConnection(url, user, password);
+			conn = DriverManager.getConnection(Config.getDbUrl(), Config.getDbUser(), Config.getDbPw());
 			response.getWriter().append("연결 성공!");
 
 			int id = Integer.parseInt(request.getParameter("id"));

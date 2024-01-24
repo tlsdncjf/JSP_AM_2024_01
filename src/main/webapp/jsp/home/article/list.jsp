@@ -143,7 +143,7 @@ body {
 			}
 
 			int pageSize_v2 = 10; //한 화면에 보여줄 페이지 갯수 -> 10개
-			int pageGroup = (int) Math.ceil((double)cPage / pageSize_v2); // 한번에 보여줄 페이지의 그룹
+			int pageGroup = (int) Math.ceil((double) cPage / pageSize_v2); // 한번에 보여줄 페이지의 그룹
 			int from_v2 = ((pageGroup - 1) * pageSize_v2) + 1; // 한번에 보여줄 때의 첫번째 페이지 번호
 			int end_v2 = pageGroup * pageSize_v2; // 한번에 보여줄 때의 마지막 페이지 번호
 
@@ -159,12 +159,25 @@ body {
 			end_v2 = totalPage;
 			}
 
+			int beforeBtn = cPage - pageSize_v2;
+			if (beforeBtn < 1) {
+			beforeBtn = 1;
+			}
+			%>
+			<a href="list?page=<%=beforeBtn%>">◁</a>
+			<%
 			for (int i = from_v2; i <= end_v2; i++) {
 			%>
 			<a class="<%=cPage == i ? "cPage" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 			<%
 			}
-
+			int afterBtn = cPage + pageSize_v2;
+			if (afterBtn > totalPage) {
+			afterBtn = totalPage;
+			}
+			%>
+			<a href="list?page=<%=afterBtn%>">▷</a>
+			<%
 			if (cPage < totalPage) {
 			%>
 			<a href="list?page=<%=totalPage%>">▶▶</a>
@@ -173,8 +186,5 @@ body {
 			%>
 		</div>
 	</div>
-
-
-
 </body>
 </html>

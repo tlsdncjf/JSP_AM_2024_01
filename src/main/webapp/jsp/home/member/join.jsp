@@ -38,7 +38,7 @@
 				alert('아이디를 입력해주세요');
 				form.loginId.focus();
 				return;
-				for (loginId == )
+			
 			}
 			if (loginPw.length == 0) {
 				alert('비밀번호를 입력해주세요');

@@ -47,6 +47,25 @@ loginId = 'test2',
 loginPw = 'test2',
 `name` = '회원2';
 
+INSERT INTO `member`
+SET regDate = NOW(),
+loginId = 'test3',
+loginPw = 'test3',
+`name` = '회원3';
+
+#################################################
+
+INSERT INTO article
+SET regDate = NOW(),
+title = CONCAT('제목__', RAND()),
+
+FROM `member`
+ORDER BY id DESC;
+
+SELECT COUNT(*) AS cnt
+FROM `member`
+WHERE loginId = 'test1';
+
 INSERT INTO article
 SET regDate = NOW(),
 title = CONCAT('제목__', RAND()),

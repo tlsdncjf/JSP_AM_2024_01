@@ -50,7 +50,7 @@ public class ArticleDetailServlet extends HttpServlet {
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 
 			request.setAttribute("articleRow", articleRow);
-			request.getRequestDispatcher("/jsp/home/article/detail.jsp").forward(request, response);
+			request.getRequestDispatcher("/jsp/article/detail.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			System.out.println("에러 : " + e);

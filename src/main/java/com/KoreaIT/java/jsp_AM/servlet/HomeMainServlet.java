@@ -31,7 +31,7 @@ public class HomeMainServlet extends HttpServlet {
 		request.setAttribute("isLogined", isLogined);
 		request.setAttribute("loginedMemberId", loginedMemberId);
 		request.setAttribute("loginedMember", loginedMember);
-		request.getRequestDispatcher("/jsp/home/main/main.jsp").forward(request, response);
+		request.getRequestDispatcher("/jsp/home/main.jsp").forward(request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {

@@ -16,12 +16,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/article/modify")
 public class ArticleModifyServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+			
 		response.setContentType("text/html;charset=UTF-8");
 		// DB연결
 		try {
@@ -45,11 +47,17 @@ public class ArticleModifyServlet extends HttpServlet {
 			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
 			sql.append("WHERE id = ?;", id);
+			
+			
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+			Map<String, Object> memberRow = DBUtil.selectRow(conn, sql);
+			HttpSession session = request.getSession();
+			
+			session.setAttribute("loginedMemberId", memberRow.get("id"));
 
 			request.setAttribute("articleRow", articleRow);
-			request.getRequestDispatcher("/jsp/home/article/modify.jsp").forward(request, response);
+			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);
 
 		} catch (SQLException e) {
 			System.out.println("에러 : " + e);

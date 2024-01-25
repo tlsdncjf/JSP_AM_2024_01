@@ -18,8 +18,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-@WebServlet("/member/dologin")
-public class MemberDologinServlet extends HttpServlet {
+@WebServlet("/member/doLogin")
+public class MemberDoLoginServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -51,9 +51,6 @@ public class MemberDologinServlet extends HttpServlet {
 						"<script>alert('%s는 없는 아이디입니다'); location.replace('../member/login');</script>", loginId));
 				return;
 			}
-
-			System.out.println(memberRow.get("loginPw"));
-			System.out.println(loginPw);
 
 			if (memberRow.get("loginPw").equals(loginPw) == false) {
 				response.getWriter().append(

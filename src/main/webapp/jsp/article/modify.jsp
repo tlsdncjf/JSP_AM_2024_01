@@ -23,7 +23,6 @@ Map<String, Object> articleRow = (Map<String, Object>) request.getAttribute("art
 	<div>
 		날짜 :
 		<%=articleRow.get("regDate")%></div>
-
 	<form method="POST" action="doModify">
 		<input type="hidden" value="<%=articleRow.get("id")%>" name="id" />
 		<div>

@@ -16,6 +16,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @WebServlet("/article/doDelete")
 public class ArticleDeleteServlet extends HttpServlet {
@@ -38,16 +39,23 @@ public class ArticleDeleteServlet extends HttpServlet {
 		Connection conn = null;
 
 		try {
-			conn = DriverManager.getConnection(Config.getDbUrl(), Config.getDbUser(), Config.getDbPw());
+			conn = DriverManager.getConnection(Config.getDbUrl(), Config.getDbUser(), Config. getDbPw());
 			response.getWriter().append("연결 성공!");
 
 			int id = Integer.parseInt(request.getParameter("id"));
+			int memberId = Integer.parseInt(request.getParameter("memberId"));
 
 			SecSql sql = SecSql.from("DELETE");
 			sql.append("FROM article");
+			sql.append("memberId = ?,", memberId);
 			sql.append("WHERE id = ?;", id);
+			                                       
+			Map<String, Object> memberRow = DBUtil.selectRow(conn, sql);
 
 			DBUtil.delete(conn, sql);
+			
+			HttpSession session = request.getSession();
+			session.setAttribute("loginedMemberId", memberRow.get("id"));
 
 			response.getWriter()
 					.append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>", id));

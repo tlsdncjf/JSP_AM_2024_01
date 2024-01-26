@@ -1,6 +1,7 @@
 package com.KoreaIT.java.jsp_AM.servlet;
 
 import java.io.IOException;
+import java.util.Map;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -17,6 +18,20 @@ public class ArticleWriteServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 
 		HttpSession session = request.getSession();
+		
+		boolean isLogined = false;
+		int loginedMemberId = -1;
+		Map<String, Object> loginedMember = null;
+
+		if (session.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
+			loginedMember = (Map<String, Object>) session.getAttribute("loginedMember");
+		}
+
+		request.setAttribute("isLogined", isLogined);
+		request.setAttribute("loginedMemberId", loginedMemberId);
+		request.setAttribute("loginedMember", loginedMember);
 
 		if (session.getAttribute("loginedMemberId") == null) {
 			response.getWriter().append(

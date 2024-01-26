@@ -61,14 +61,7 @@ body {
 	text-decoration: underline;
 }
 </style>
-	<div>
-		<a href="../home/main">메인으로 이동</a>
-	</div>
-
-
-	<div>
-		<a href="write">글쓰기</a>
-	</div>
+	<%@ include file="../part/topBar.jspf"%>
 
 	<h2>게시물 목록</h2>
 

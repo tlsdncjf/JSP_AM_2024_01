@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import com.KoreaIT.java.jsp_AM.config.Config;
+import com.KoreaIT.java.jsp_AM.exception.SQLErrorException;
 import com.KoreaIT.java.jsp_AM.util.DBUtil;
 import com.KoreaIT.java.jsp_AM.util.SecSql;
-import com.KoreaIT.java.jsp_AM.exception.SQLErrorException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -31,10 +31,6 @@ public class ArticleDetailServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		String url = "jdbc:mysql://127.0.0.1:3306/JSP_AM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		String user = "root";
-		String password = "";
-
 		Connection conn = null;
 
 		try {
@@ -43,9 +39,11 @@ public class ArticleDetailServlet extends HttpServlet {
 
 			int id = Integer.parseInt(request.getParameter("id"));
 
-			SecSql sql = SecSql.from("SELECT *");
-			sql.append("FROM article");
-			sql.append("WHERE id = ?;", id);
+			SecSql sql = SecSql.from("SELECT A.*, M.name AS writer");
+			sql.append("FROM article AS A");
+			sql.append("INNER JOIN `member` AS M");
+			sql.append("ON A.memberId = M.id");
+			sql.append("WHERE A.id = ?;", id);
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
 
@@ -66,9 +64,9 @@ public class ArticleDetailServlet extends HttpServlet {
 			}
 		}
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

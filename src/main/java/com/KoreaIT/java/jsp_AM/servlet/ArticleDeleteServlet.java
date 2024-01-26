@@ -7,9 +7,9 @@ import java.sql.SQLException;
 import java.util.Map;
 
 import com.KoreaIT.java.jsp_AM.config.Config;
+import com.KoreaIT.java.jsp_AM.exception.SQLErrorException;
 import com.KoreaIT.java.jsp_AM.util.DBUtil;
 import com.KoreaIT.java.jsp_AM.util.SecSql;
-import com.KoreaIT.java.jsp_AM.exception.SQLErrorException;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -24,6 +24,15 @@ public class ArticleDeleteServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		response.setContentType("text/html;charset=UTF-8");
+
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("loginedMemberId") == null) {
+			response.getWriter().append(
+					String.format("<script>alert('로그인 후 이용해주세요'); location.replace('../member/login');</script>"));
+			return;
+		}
+
 		// DB연결
 		try {
 			Class.forName(Config.getDbDriverClassName());
@@ -32,30 +41,33 @@ public class ArticleDeleteServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 
-		String url = "jdbc:mysql://127.0.0.1:3306/JSP_AM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		String user = "root";
-		String password = "";
-
 		Connection conn = null;
 
 		try {
-			conn = DriverManager.getConnection(Config.getDbUrl(), Config.getDbUser(), Config. getDbPw());
+			conn = DriverManager.getConnection(Config.getDbUrl(), Config.getDbUser(), Config.getDbPw());
 			response.getWriter().append("연결 성공!");
 
 			int id = Integer.parseInt(request.getParameter("id"));
-			int memberId = Integer.parseInt(request.getParameter("memberId"));
 
-			SecSql sql = SecSql.from("DELETE");
+			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
-			sql.append("memberId = ?,", memberId);
 			sql.append("WHERE id = ?;", id);
-			                                       
-			Map<String, Object> memberRow = DBUtil.selectRow(conn, sql);
+
+			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
+
+			int loginedMemberId = (int) session.getAttribute("loginedMemberId");
+
+			if (loginedMemberId != (int) articleRow.get("memberId")) {
+				response.getWriter().append(
+						String.format("<script>alert('해당 글에 대한 권한이 없습니다.'); location.replace('list');</script>"));
+				return;
+			}
+
+			sql = SecSql.from("DELETE");
+			sql.append("FROM article");
+			sql.append("WHERE id = ?;", id);
 
 			DBUtil.delete(conn, sql);
-			
-			HttpSession session = request.getSession();
-			session.setAttribute("loginedMemberId", memberRow.get("id"));
 
 			response.getWriter()
 					.append(String.format("<script>alert('%d번 글이 삭제되었습니다.'); location.replace('list');</script>", id));
@@ -74,9 +86,9 @@ public class ArticleDeleteServlet extends HttpServlet {
 			}
 		}
 	}
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-
 }

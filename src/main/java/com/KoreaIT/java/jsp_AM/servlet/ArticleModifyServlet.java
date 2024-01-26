@@ -6,10 +6,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.KoreaIT.java.jsp_AM.util.DBUtil;
-import com.KoreaIT.java.jsp_AM.util.SecSql;
 import com.KoreaIT.java.jsp_AM.config.Config;
 import com.KoreaIT.java.jsp_AM.exception.SQLErrorException;
+import com.KoreaIT.java.jsp_AM.util.DBUtil;
+import com.KoreaIT.java.jsp_AM.util.SecSql;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -23,8 +23,17 @@ public class ArticleModifyServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-			
+
 		response.setContentType("text/html;charset=UTF-8");
+
+		HttpSession session = request.getSession();
+
+		if (session.getAttribute("loginedMemberId") == null) {
+			response.getWriter().append(
+					String.format("<script>alert('로그인 후 이용해주세요'); location.replace('../member/login');</script>"));
+			return;
+		}
+
 		// DB연결
 		try {
 			Class.forName(Config.getDbDriverClassName());
@@ -32,10 +41,6 @@ public class ArticleModifyServlet extends HttpServlet {
 			System.out.println("클래스가 없습니다.");
 			e.printStackTrace();
 		}
-
-		String url = "jdbc:mysql://127.0.0.1:3306/JSP_AM?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul&useOldAliasMetadataBehavior=true&zeroDateTimeNehavior=convertToNull";
-		String user = "root";
-		String password = "";
 
 		Connection conn = null;
 
@@ -47,14 +52,8 @@ public class ArticleModifyServlet extends HttpServlet {
 			SecSql sql = SecSql.from("SELECT *");
 			sql.append("FROM article");
 			sql.append("WHERE id = ?;", id);
-			
-			
 
 			Map<String, Object> articleRow = DBUtil.selectRow(conn, sql);
-			Map<String, Object> memberRow = DBUtil.selectRow(conn, sql);
-			HttpSession session = request.getSession();
-			
-			session.setAttribute("loginedMemberId", memberRow.get("id"));
 
 			request.setAttribute("articleRow", articleRow);
 			request.getRequestDispatcher("/jsp/article/modify.jsp").forward(request, response);

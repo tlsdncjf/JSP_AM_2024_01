@@ -1,7 +1,7 @@
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.lang.Math"%>
-<%@ page import="com.KoreaIT.java.Jsp_AM.dto.Article"%>
+<%@ page import="com.KoreaIT.java.jsp_AM.dto.Article"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
@@ -169,10 +169,13 @@ body {
 			<a class="<%=cPage == i ? "cPage" : ""%>" href="list?page=<%=i%>"><%=i%></a>
 			<%
 			}
-			int afterBtn = pageGroup + pageSize_v2;
+			int afterBtn = pageGroup * pageSize_v2 + 1;
 			if (afterBtn > totalPage) {
-			// 			afterBtn = totalPage;
+			afterBtn = totalPage;
 			}
+			System.out.println("pageSize_v2 : " + pageSize_v2);
+			System.out.println("pageGroup : " + pageGroup);
+			System.out.println("afterBtn : " + afterBtn);
 			%>
 			<a href="list?page=<%=afterBtn%>">▷</a>
 			<%

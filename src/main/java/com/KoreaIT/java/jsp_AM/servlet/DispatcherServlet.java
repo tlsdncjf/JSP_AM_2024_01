@@ -64,7 +64,7 @@ public class DispatcherServlet extends HttpServlet {
 			// [0][1] [2] [3]
 
 			if (requestUriBits.length < 5) {
-		
+
 				response.getWriter().append("올바른 요청이 아닙니다.");
 				return;
 			}
